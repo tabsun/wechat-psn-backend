@@ -3,3 +3,4 @@ bottle
 requests
 six
 werobot
+wsgiserver
