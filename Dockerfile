@@ -27,7 +27,7 @@ RUN set -x \
 	&& make -j$(nproc) \
 	&& make install \
 	&& ldconfig \
-	&& curl -SL 'https://bootstrap.pypa.io/get-pip.py' | python2 \
+	&& curl -SL 'https://bootstrap.pypa.io/get-pip.py' | python3 \
 	&& pip install --no-cache-dir --upgrade pip==$PYTHON_PIP_VERSION \
 	&& find /usr/local \
 		\( -type d -a -name test -o -name tests \) \
@@ -54,6 +54,6 @@ RUN pip install --no-cache-dir -r requirements.txt && rm -rf requirements.txt
 # listen 80 port
 EXPOSE 80
 
-# CMD ["python2"]
+# CMD ["python3"]
 ENTRYPOINT ["python"]
 CMD ["index.py"]
