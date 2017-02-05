@@ -1,6 +1,6 @@
 cherrypy
+cherrypy-wsgiserver
 bottle
 requests
 six
 werobot
-wsgiserver
