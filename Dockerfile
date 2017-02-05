@@ -27,7 +27,7 @@ RUN set -x \
 	&& make install \
 	&& ldconfig \
 	&& curl -SL 'https://bootstrap.pypa.io/get-pip.py' | python3 \
-	&& pip install --no-cache-dir --upgrade pip==$PYTHON_PIP_VERSION \
+	&& python -m pip install --no-cache-dir --upgrade pip==$PYTHON_PIP_VERSION \
 	&& find /usr/local \
 		\( -type d -a -name test -o -name tests \) \
 		-o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
@@ -35,20 +35,20 @@ RUN set -x \
 	&& rm -rf /usr/src/python
 
 # install "virtualenv", since the vast majority of users of this image will want it
-RUN pip install --no-cache-dir virtualenv 
+RUN python -m pip install --no-cache-dir virtualenv 
 
 # revised for DaoCloud.io
 
 # these maybe install
-RUN pip install --no-cache-dir pycrypto
-RUN pip install --no-cache-dir lxml
+RUN python -m pip install --no-cache-dir pycrypto
+RUN python -m pip install --no-cache-dir lxml
 
 # copy code
 COPY ./ /tmp/
 WORKDIR /tmp
 
 # install CherryPy & WeRoBot & WeRoBot dependencies: from WeRoBotsource/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt && rm -rf requirements.txt
+RUN python -m pip install --no-cache-dir -r requirements.txt && rm -rf requirements.txt
 
 # listen 80 port
 EXPOSE 80
