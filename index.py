@@ -13,4 +13,4 @@ def subscribe(message):
 def echo(message):
     return '我是WeRoBot机器人'
 
-robot.run(server='cherrypy',host='0.0.0.0',port=80)
+robot.run(host='0.0.0.0',port=80)
