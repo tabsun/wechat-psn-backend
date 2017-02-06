@@ -48,9 +48,6 @@ RUN pip install --no-cache-dir lxml
 COPY ./ /tmp/
 WORKDIR /tmp
 
-# install cherrypy from github
-RUN clone https://github.com/cherrypy/cherrypy && cd cherrypy && python setup.py install && rm -rf cherrypy
-
 # install CherryPy & WeRoBot & WeRoBot dependencies: from WeRoBotsource/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt && rm -rf requirements.txt
 

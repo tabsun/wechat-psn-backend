@@ -1,3 +1,4 @@
+cherrypy
 bottle
 requests
 six
