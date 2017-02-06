@@ -7,10 +7,23 @@ robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
 
 @robot.subscribe
 def subscribe(message):
-    return '欢迎关注本公众号！'
+    return '欢迎关注iRumor！'
 
-@robot.handler
-def echo(message):
-    return '我是WeRoBot机器人'
+@robot.text
+def articles(message):
+    return [
+        [
+            "title",
+            "description",
+            "img",
+            "url"
+        ],
+        [
+            "whtsky",
+            "I wrote WeRobot",
+            "https://secure.gravatar.com/avatar/0024710771815ef9b74881ab21ba4173?s=420",
+            "http://www.baidu.com/"
+        ]
+    ]
 
 robot.run(host='0.0.0.0',port=80)
