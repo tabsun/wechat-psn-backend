@@ -13,12 +13,6 @@ def subscribe(message):
 def articles(message):
     return [
         [
-            "title",
-            "description",
-            "img",
-            "url"
-        ],
-        [
             "whtsky",
             "I wrote WeRobot",
             "https://secure.gravatar.com/avatar/0024710771815ef9b74881ab21ba4173?s=420",
