@@ -3,7 +3,7 @@ import werobot
 
 #robot = werobot.WeRoBot(token='robot', enable_session=True, session_storage=saekvstorage.SaeKVDBStorage())
 #robot = werobot.WeRoBot(token='testrobot', enable_session=True, session_storage=filestorage.FileStorage())
-robot = werobot.WeRoBot(token='testrobot', enable_session=True)
+robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
 
 @robot.subscribe
 def subscribe(message):
