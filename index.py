@@ -11,12 +11,27 @@ def subscribe(message):
 
 @robot.text
 def articles(message):
+    html_str = """
+        <html>
+        <head>
+            <title>%s</title>
+        </head>
+        <body>
+            <p>body of %s</p>
+        </body>
+        </html>
+        """ % (message.content, message.content)
+
+    html_file= open("article.html","w")
+    html_file.write(html_str)
+    html_file.close()
+    
     return [
         [
             "whtsky",
             "I wrote WeRobot",
             "https://secure.gravatar.com/avatar/0024710771815ef9b74881ab21ba4173?s=420",
-            "http://www.baidu.com/"
+            "http://tabsun-rumor-backend-app.daoapp.io/article.html"
         ]
     ]
 
