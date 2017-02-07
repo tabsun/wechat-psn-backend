@@ -14,13 +14,13 @@ def articles(message):
     html_str = """
         <html>
         <head>
-            <title>%s</title>
+            <title>test</title>
         </head>
         <body>
-            <p>body of %s</p>
+            <p>body of test</p>
         </body>
         </html>
-        """ % (message.content, message.content)
+        """
 
     html_file= open("/var/ArticlePoolVolume/article.html","w")
     html_file.write(html_str)
