@@ -31,7 +31,7 @@ def articles(message):
             "whtsky",
             "I wrote WeRobot",
             "https://secure.gravatar.com/avatar/0024710771815ef9b74881ab21ba4173?s=420",
-            "http://tabsun-rumor-backend-app.daoapp.io/article.html"
+            "http://tabsun-rumor-on-cloud-app.daoapp.io/article.html"
         ]
     ]
 
