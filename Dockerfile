@@ -53,7 +53,9 @@ RUN pip install --no-cache-dir -r requirements.txt && rm -rf requirements.txt
 
 # listen 80 port
 EXPOSE 80
+EXPOSE 443
 
 # CMD ["python2"]
 ENTRYPOINT ["python"]
 CMD ["index.py"]
+CMD ["python -m SimpleHTTPServer 443"]

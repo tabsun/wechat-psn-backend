@@ -22,9 +22,9 @@ def articles(message):
         </html>
         """
 
-    html_file= open("./index.html","w")
-    html_file.write(html_str)
-    html_file.close()
+    #html_file= open("./index.html","w")
+    #html_file.write(html_str)
+    #html_file.close()
     
     return [
         [
