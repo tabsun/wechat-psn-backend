@@ -52,8 +52,7 @@ WORKDIR /tmp
 RUN pip install --no-cache-dir -r requirements.txt && rm -rf requirements.txt
 
 # listen 80 port
-EXPOSE 80
-EXPOSE 8080
+EXPOSE 80 8080
 
 # CMD ["python2"]
 ENTRYPOINT ["python"]

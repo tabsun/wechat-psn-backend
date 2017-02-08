@@ -1,10 +1,9 @@
 # -*- coding:utf-8 -*-
 import werobot
+from bottle import route
 
-#robot = werobot.WeRoBot(token='robot', enable_session=True, session_storage=saekvstorage.SaeKVDBStorage())
-#robot = werobot.WeRoBot(token='testrobot', enable_session=True, session_storage=filestorage.FileStorage())
+# weixin server
 robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
-
 @robot.subscribe
 def subscribe(message):
     return '欢迎关注iRumor！'
@@ -31,8 +30,18 @@ def articles(message):
             "whtsky",
             "I wrote WeRobot",
             "https://secure.gravatar.com/avatar/0024710771815ef9b74881ab21ba4173?s=420",
-            "http://tabsun-rumor-on-cloud-app.daoapp.io/article.html"
+            "http://tabsun-rumor-on-cloud-app.daoapp.io/index.html"
         ]
     ]
 
-robot.run(host='0.0.0.0',port=80)
+#robot.run(host='0.0.0.0',port=80)
+
+
+@route('/static/')
+def static_content(filename):   
+    current_folder = os.path.dirname(os.path.abspath(__file__))   
+    static_file =   os.path.join(current_folder, '%s' % filename)   
+    with open (static_file) as f:       
+        content = f.read()       
+    return content
+bottle.run(host='0.0.0.0', port=8080)
