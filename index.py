@@ -13,26 +13,28 @@ def subscribe(message):
 def articles(message):
     title_str = message.content
     date_str = time.strftime('%Y-%m-%d',time.localtime(time.time()))
-    #title_str.encode('utf-8')
+    title_str.encode('utf-8')
     #date_str.encode('utf-8')
-    html_template =Template("""
+    html_str1 =Template("""
         <html>
             <head>
-            <title>$title</title>
+            <title>iRumor</title>
             </head>
 
             <body>
-            <h2>$title</h2>
+            <h2>"""
+    html_str2 = """</h2>
             <hr />
-            <p>$date tabsun iRumor</p>
+            <p>"""
+    html_str3 = """ tabsun iRumor</p>
             <br>
             <p>Just for test</p>
             <br>
             <p>更多内容关注iRumor</p>
             <img src="http://i.imgur.com/o8L9ItZ.jpg"/>
             </body>
-        </html>""")
-    html_str = html_template.substitute(title=title_str, date="2017-02-10")
+        </html>"""
+    html_str = html_str1 + title_str + html_str2 + date_str + html_str3
 
     html_file= open("/var/ArticlePoolVolume/index.html","w")
     html_file.write(html_str)
