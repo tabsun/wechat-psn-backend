@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 import werobot
-from bottle import route
+from bottle import route,run
 
 # weixin server
 robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
@@ -44,4 +44,4 @@ def static_content(filename):
     with open (static_file) as f:       
         content = f.read()       
     return content
-bottle.run(host='0.0.0.0', port=8080)
+run(host='0.0.0.0', port=8080)
