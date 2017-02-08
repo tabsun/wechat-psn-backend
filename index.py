@@ -15,7 +15,7 @@ def articles(message):
     date_str = time.strftime('%Y-%m-%d',time.localtime(time.time()))
     title_str.encode('utf-8')
     #date_str.encode('utf-8')
-    html_template ="""
+    html_template =Template("""
         <html>
             <head>
             <title>$title</title>
@@ -31,7 +31,7 @@ def articles(message):
             <p>更多内容关注iRumor</p>
             <img src="http://i.imgur.com/o8L9ItZ.jpg"/>
             </body>
-        </html>"""
+        </html>""")
     html_template.substitute(title=title_str, date="2017-02-10")
 
     html_file= open("/var/ArticlePoolVolume/index.html","w")
