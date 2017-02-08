@@ -20,7 +20,7 @@ def articles(message):
         </body>
         </html>""" % message.content)
 
-    html_file= open("/var/vo/index.html","w")
+    html_file= open("/var/ArticlePoolVolume/index.html","w")
     html_file.write(html_str)
     html_file.close()
     
