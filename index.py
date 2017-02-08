@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 import werobot
-from bottle import route,run
+import time
 
 # weixin server
 robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
@@ -10,15 +10,25 @@ def subscribe(message):
 
 @robot.text
 def articles(message):
-    html_str =("""
+    title = message.content
+    date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+    html_str ="""
         <html>
-        <head>
-            <title>YourMessage</title>
-        </head>
-        <body>
-            <p>%s</p>
-        </body>
-        </html>""" % message.content)
+            <head>
+            <title>%s</title>
+            </head>
+
+            <body>
+            <h2>%s</h2>
+            <hr />
+            <p>%s tabsun iRumor</p>
+            <br>
+            <p>Just for test</p>
+            <br>
+            <p>更多内容关注iRumor</p>
+            <img src="http://i.imgur.com/o8L9ItZ.jpg"/>
+            </body>
+        </html>""" % (title, title, date)
 
     html_file= open("/var/ArticlePoolVolume/index.html","w")
     html_file.write(html_str)
@@ -29,7 +39,7 @@ def articles(message):
             "whtsky",
             "I wrote WeRobot",
             "https://secure.gravatar.com/avatar/0024710771815ef9b74881ab21ba4173?s=420",
-            "http://tabsun-rumor-on-cloud-app.daoapp.io"
+            "http://tabsun-nginx-web.daoapp.io"
         ]
     ]
 
