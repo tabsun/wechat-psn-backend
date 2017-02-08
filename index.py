@@ -32,7 +32,7 @@ def articles(message):
             <img src="http://i.imgur.com/o8L9ItZ.jpg"/>
             </body>
         </html>""")
-    html_template.substitute(title=title_str, date="2017-02-10")
+    html_str = html_template.substitute(title=title_str, date="2017-02-10")
 
     html_file= open("/var/ArticlePoolVolume/index.html","w")
     html_file.write(html_str)
