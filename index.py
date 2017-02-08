@@ -12,7 +12,7 @@ def subscribe(message):
 def articles(message):
     title = message.content
     date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
-    title.decode('gb2312').encode('utf-8')
+    title.decode('unicode').encode('utf-8')
     html_str ="""
         <html>
             <head>
