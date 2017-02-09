@@ -11,13 +11,9 @@ def subscribe(message):
 
 @robot.text
 def articles(message):
-    title_str = message.content
+    title_str = message.type
     date_str = time.strftime('%Y-%m-%d',time.localtime(time.time()))
-    print "your message is:"
-    print message.content
-    print "my title is:"
-    print title_str
-    title_str.encode('utf-8')
+    #title_str.encode('utf-8')
     #date_str.encode('utf-8')
     html_str1 ="""
         <html>
