@@ -7,7 +7,7 @@ from string import Template
 robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
 @robot.subscribe
 def subscribe(message):
-    return '欢迎关注iRumor！'
+    return '欢迎关注irumor！'
 
 @robot.text
 def articles(message):
@@ -18,7 +18,8 @@ def articles(message):
     html_str1 ="""
         <html>
             <head>
-            <title>iRumor</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <title>irumor</title>
             </head>
 
             <body>
@@ -26,11 +27,11 @@ def articles(message):
     html_str2 = """</h2>
             <hr />
             <p>"""
-    html_str3 = """ tabsun iRumor</p>
+    html_str3 = """ tabsun irumor</p>
             <br>
             <p>Just for test</p>
             <br>
-            <p>更多内容关注iRumor</p>
+            <p>更多内容关注irumor</p>
             <img src="http://i.imgur.com/o8L9ItZ.jpg"/>
             </body>
         </html>"""
