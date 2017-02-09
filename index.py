@@ -19,7 +19,7 @@ def articles(message):
     print title_str
     title_str.encode('utf-8')
     #date_str.encode('utf-8')
-    html_str1 =Template("""
+    html_str1 ="""
         <html>
             <head>
             <title>iRumor</title>
