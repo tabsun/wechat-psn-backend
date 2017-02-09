@@ -50,7 +50,7 @@ def articles(message):
         <html>
             <head>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-            <title>irumor</title>
+            <title>%s</title>
             </head>
 
             <body>
@@ -64,7 +64,7 @@ def articles(message):
             <p>更多内容关注irumor</p>
             <img src="http://i.imgur.com/o8L9ItZ.jpg"/>
             </body>
-        </html>""" % (title_str, date_str, img_insert_tpl, content_str)
+        </html>""" % (title_str, title_str, date_str, img_insert_tpl, content_str)
 
     html_file= open("/var/ArticlePoolVolume/index.html","w")
     html_file.write(html_str)
@@ -74,7 +74,7 @@ def articles(message):
         [
             title_str,
             "I wrote WeRobot",
-            "%s" % cover_url,
+            "http://img3.imgtn.bdimg.com/it/u=2763680482,3958013673&fm=21&gp=0.jpg",
             "http://tabsun-nginx-web.daoapp.io"
         ]
     ]
