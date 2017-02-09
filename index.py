@@ -45,7 +45,7 @@ def articles(message):
         [
             "whtsky",
             "I wrote WeRobot",
-            "https://secure.gravatar.com/avatar/0024710771815ef9b74881ab21ba4173?s=420",
+            "http://img0.imgtn.bdimg.com/it/u=3324759509,3214419485&fm=23&gp=0.jpg",
             "http://tabsun-nginx-web.daoapp.io"
         ]
     ]
