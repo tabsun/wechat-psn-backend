@@ -74,7 +74,7 @@ def articles(message):
         [
             title_str,
             "I wrote WeRobot",
-            cover_url,
+            "%s" % cover_url,
             "http://tabsun-nginx-web.daoapp.io"
         ]
     ]
