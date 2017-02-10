@@ -3,6 +3,7 @@ import werobot
 import time
 from string import Template
 from BaiduImageSearch import BaiduImage
+from BaiduSearch import BaiduSearch
 import hashlib
 import os
 
@@ -31,7 +32,10 @@ def articles(message):
     opinion_str = opinion_str.encode('utf-8')
     date_str = time.strftime('%Y-%m-%d',time.localtime(time.time()))
     # get article's title and content about the opinion
-    title_str = opinion_str
+    searcher = BaiduSearchSpider(searchText) 
+    results_pair = searcher.originalURLs
+    
+    title_str = results_pair[0][1]
     content_str = """《奇葩说》第二季里有一个辩题是：女生该不该追男生？\n
         喵以为，这个辩题的要点在“怎么定义追”？如果采取大众定义，“追=表白+付出的行为”。
         那么，在中国的语境下，我的答案是：不该！除非三个条件……\n
@@ -60,7 +64,8 @@ def articles(message):
     if len(images_url) > 0:
         cover_url = images_url[0]
         
-    img_insert_tpl = "<img src=%s /img>" % cover_url    
+    # TODO: insert other images into the article    
+    #img_insert_tpl = "<img src=%s /img>" % cover_url    
     html_str ="""
         <html>
             <head>
