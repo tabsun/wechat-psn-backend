@@ -74,7 +74,7 @@ def articles(message):
         [
             title_str,
             "I wrote WeRobot",
-            "http://img3.imgtn.bdimg.com/it/u=2763680482,3958013673&fm=21&gp=0.jpg",
+            cover_url,
             "http://tabsun-nginx-web.daoapp.io"
         ]
     ]

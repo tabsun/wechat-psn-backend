@@ -9,7 +9,7 @@ import os
 
 class BaiduImage():
 
-    def __init__(self, keyword, count=3, save_path="img", rn=60):
+    def __init__(self, keyword, count=1, save_path="img", rn=60):
         self.keyword = keyword
         self.count = count
         self.save_path = save_path
@@ -31,6 +31,11 @@ class BaiduImage():
         for i in range(0, self.__acJsonCount):
             url = self.__get_search_url(i * self.rn)
             response = self.__get_response(url)
+            # tabsun
+            log = open("log.html","w")
+            log.write(response)
+            log.close()
+            
             image_url_list = self.__pick_image_urls(response)
             self.__imageList.extend(image_url_list)
 
@@ -44,10 +49,10 @@ class BaiduImage():
             self.headers["Host"] = host
             if count < num:
                 try:
-                    req = urllib.Request(image, headers=self.headers)
-                    img = urllib.urlopen(req, timeout=20)
-                    real_url = img.geturl()
-                    real_url = real_url.replace('fm=23&gp=0.jpg','fm=21&gp=0.jpg')
+                    #print image
+                    #req = urllib.Request(image, headers=self.headers)
+                    #img = urllib.urlopen(req, timeout=20)
+                    real_url = image #img.geturl()
                     urls.append(real_url)
                     count += 1
                 except Exception as e:
@@ -57,10 +62,14 @@ class BaiduImage():
         return urls
 
     def __pick_image_urls(self, response):
-        reg = r'"thumbURL":"(.*?)"'
+        reg = r'"ObjURL":"(http.*?)"'
         imgre = re.compile(reg)
         imglist = re.findall(imgre, response)
-        return imglist
+        real_urls = []
+        for link in imglist:
+            if "imgtn.bdimg.com" not in link:
+                real_urls.append(link.replace("\/","/"))
+        return real_urls
 
     def __get_response(self, url):
         page = urllib.urlopen(url)
