@@ -3,6 +3,21 @@ import werobot
 import time
 from string import Template
 from BaiduImageSearch import BaiduImage
+import hashlib
+import os
+
+def GetFileMd5(filename):
+    if not os.path.isfile(filename):
+        return None
+    myhash = hashlib.md5()
+    f = file(filename,'rb')
+    while True:
+        b = f.read(8096)
+        if not b :
+            break
+        myhash.update(b)
+    f.close()
+    return myhash.hexdigest()
 
 # weixin server
 robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
@@ -66,16 +81,24 @@ def articles(message):
             </body>
         </html>""" % (title_str, title_str, date_str, img_insert_tpl, content_str)
 
-    html_file= open("/var/ArticlePoolVolume/index.html","w")
+    temp_file_dir = "/var/ArticlePoolVolume/temp.html"
+    html_file= open(temp_file_dir,"w")
     html_file.write(html_str)
     html_file.close()
+
+    md5 = GetFileMd5(temp_file_dir)
+    article_url = "http://tabsun-nginx-web.daoapp.io"
+    if md5 is not None:        
+        article_url = "http://tabsun-nginx-web.daoapp.io/%s.html" % md5
+        final_file_dir = "/var/ArticlePoolVolume/%s.html" % md5
+        os.rename(temp_file_dir,final_file_dir)
     
     return [
         [
             title_str,
             "I wrote WeRobot",
             cover_url,
-            "http://tabsun-nginx-web.daoapp.io"
+            article_url
         ]
     ]
 
