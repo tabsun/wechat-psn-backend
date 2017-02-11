@@ -43,19 +43,3 @@ class BaiduSearch(object):
             title = title.split("_")[0]
             results.append((url,title))
         return results
-
-searchText = "35岁之后不适合生孩子"
-
-bdsearch = BaiduSearchSpider(searchText) 
-originalurls = bdsearch.originalURLs
-
-output = open('result.txt','w')
-for result in originalurls:
-    output.write("---------------------------\n")
-    output.write(result[0])
-    output.write("\n")
-    output.write(result[1])
-    output.write("\n")
-    output.write("---------------------------\n")
-output.close()
-print '============================'

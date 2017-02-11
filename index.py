@@ -32,7 +32,7 @@ def articles(message):
     opinion_str = opinion_str.encode('utf-8')
     date_str = time.strftime('%Y-%m-%d',time.localtime(time.time()))
     # get article's title and content about the opinion
-    searcher = BaiduSearchSpider(searchText) 
+    searcher = BaiduSearch(opinion_str) 
     results_pair = searcher.originalURLs
     
     title_str = results_pair[0][1]
