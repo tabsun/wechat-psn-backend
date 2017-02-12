@@ -65,7 +65,7 @@ def articles(message):
         cover_url = images_url[0]
         
     # TODO: insert other images into the article    
-    #img_insert_tpl = "<img src=%s /img>" % cover_url    
+    img_insert_tpl = "<img src=%s /img>" % cover_url    
     html_str ="""
         <html>
             <head>
