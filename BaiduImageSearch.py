@@ -45,14 +45,19 @@ class BaiduImage():
         urls = []
         count = 0
         for image in self.__imageList:
+            if "sinaimg" in image:
+                continue
             host = self.get_url_host(image)
             self.headers["Host"] = host
             if count < num:
                 try:
                     #print image
-                    #req = urllib.Request(image, headers=self.headers)
-                    #img = urllib.urlopen(req, timeout=20)
-                    real_url = image #img.geturl()
+                    req = urllib.Request(image, headers=self.headers)
+                    img = urllib.urlopen(req, timeout=20)
+                    if img.getcode() != 200:
+                        continue
+                    
+                    real_url = img.geturl()
                     urls.append(real_url)
                     count += 1
                 except Exception as e:
