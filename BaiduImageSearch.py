@@ -5,7 +5,7 @@ import urllib2 as urllib
 import random
 import re
 import os
-from PIL import Image
+#from PIL import Image
 
 
 class BaiduImage():
@@ -61,10 +61,10 @@ class BaiduImage():
                     if not os.path.isfile("tmp.jpg"):
                         continue
                     else:
-                        size = Image.open("tmp.jpg").size
+                        #size = Image.open("tmp.jpg").size
                         os.remove("tmp.jpg")
-                        if size[0] < 0 or size[1] < 0 or size[0] > 5000 or size[1] > 5000:
-                            continue
+                        #if size[0] < 0 or size[1] < 0 or size[0] > 5000 or size[1] > 5000:
+                        #    continue
                         
                     real_url = img.geturl()
                     urls.append(real_url)
