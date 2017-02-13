@@ -3,4 +3,3 @@ requests
 six
 werobot
 pyquery
-PIL
