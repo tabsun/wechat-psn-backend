@@ -5,6 +5,7 @@ import urllib2 as urllib
 import random
 import re
 import os
+from PIL import Image
 
 
 class BaiduImage():
@@ -32,9 +33,9 @@ class BaiduImage():
             url = self.__get_search_url(i * self.rn)
             response = self.__get_response(url)
             # tabsun
-            log = open("log.html","w")
-            log.write(response)
-            log.close()
+            #log = open("log.html","w")
+            #log.write(response)
+            #log.close()
             
             image_url_list = self.__pick_image_urls(response)
             self.__imageList.extend(image_url_list)
@@ -54,9 +55,17 @@ class BaiduImage():
                     #print image
                     req = urllib.Request(image, headers=self.headers)
                     img = urllib.urlopen(req, timeout=20)
-                    if img.getcode() != 200:
+                    tmp_file = open("tmp.jpg","wb")
+                    tmp_file.write(img.read())
+                    tmp_file.close()
+                    if not os.path.isfile("tmp.jpg"):
                         continue
-                    
+                    else:
+                        size = Image.open("tmp.jpg").size
+                        os.remove("tmp.jpg")
+                        if size[0] < 0 or size[1] < 0 or size[0] > 5000 or size[1] > 5000:
+                            continue
+                        
                     real_url = img.geturl()
                     urls.append(real_url)
                     count += 1
