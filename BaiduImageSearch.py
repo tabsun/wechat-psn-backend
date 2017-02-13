@@ -54,7 +54,7 @@ class BaiduImage():
                 try:
                     #print image
                     req = urllib.Request(image, headers=self.headers)
-                    img = urllib.urlopen(req, timeout=20)
+                    img = urllib.urlopen(req, timeout=1)
                     tmp_file = open("tmp.jpg","wb")
                     tmp_file.write(img.read())
                     tmp_file.close()
