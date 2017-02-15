@@ -7,6 +7,12 @@ from BaiduSearch import BaiduSearch
 import hashlib
 import os
 
+def log_this(name, content):
+    f = open("/var/ArticlePoolVolume/%s.txt" % name, "w")
+    f.write(content)
+    f.close()
+    return
+
 def GetFileMd5(filename):
     if not os.path.isfile(filename):
         return None
@@ -50,7 +56,8 @@ def GetTitleContent(opinion):
 不攻不战、不进不退、不争不斗，尔乃匹夫之辈！”
 大喊一声，曹兵吓退；大喊二声，顺水横流；大喊三声，把当阳桥喝断。
 后人有诗赞之曰：“长坂坡（当阳桥）前救赵云，吓退曹操百万军，姓张名飞字翼德，万古留芳莽撞人”！"""
-    return title, content
+    description = "在想当初，后汉三国年间，有一位莽撞人。"
+    return title, content, description
 
 def GetImagesURL(opinion):
     cover_url = "https://secure.gravatar.com/avatar/0024710771815ef9b74881ab21ba4173?s=420"
@@ -113,9 +120,13 @@ def articles(message):
     date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
     # get article's title and content about the opinion
     title, content, description = GetTitleContent(opinion_str)
+    log_this("title",title)
+    log_this("content",content)
+    log_this("description", description)
     # get cover image(also top image)
     cover, images = GetImagesURL(opinion_str)
-        
+    log_this("cover", cover)
+    
     # generate html content string
     html_str = Generate(title, date, content, images)
     # write the html string into html file
