@@ -20,52 +20,63 @@ def GetFileMd5(filename):
     f.close()
     return myhash.hexdigest()
 
-# weixin server
-robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
-@robot.subscribe
-def subscribe(message):
-    return '欢迎关注irumor！'
-
-@robot.text
-def articles(message):
-    opinion_str = message.content  
-    opinion_str = opinion_str.encode('utf-8')
-    date_str = time.strftime('%Y-%m-%d',time.localtime(time.time()))
-    # get article's title and content about the opinion
+def GetTitleContent(opinion):
     searcher = BaiduSearch(opinion_str) 
     results_pair = searcher.originalURLs
     
-    title_str = results_pair[0][1]
-    content_str = """《奇葩说》第二季里有一个辩题是：女生该不该追男生？\n
-        喵以为，这个辩题的要点在“怎么定义追”？如果采取大众定义，“追=表白+付出的行为”。
-        那么，在中国的语境下，我的答案是：不该！除非三个条件……\n
-        不过，喵喵君提供一个心理学精神分析学派的视角来看这个问题。逻辑链条有点长，
-        请智商100+的同学们慢慢follow，这还要从重男轻女的社会说起！\n\n
-        【重男轻女社会的悲剧轮回】\n
-        （地图炮预警！不过主要是对这三个省的情况比较熟悉，不代表这些省份的所有人都这样，
-        也不代表其他省份就不这样）\n
-        众所周知，中国（尤其大汉族沙文主义兴盛的东南三省），重男轻女仍十分严重（
-        闽赣和粤之潮汕地区三省的女孩子，向你们投去深深的同情，据我所知，这部分地区
-        依然男女分桌，不生男孩的女人会没地位，好强的女人会逼自己的孩子跟自己姓来传宗接代）。\n
-        重男轻女会有什么问题呢？\n\n
+    title = results_pair[0][1]
+    content = """在想当初，后汉三国年间，有一位莽撞人。
+自桃园三结义以来，大爷，姓刘名备字玄德，家住大树楼桑；二弟，姓关名羽字云长，家住山西蒲州解梁县；
+三弟，姓张名飞字翼德，家住涿州范阳郡；后续四弟，姓赵名云字子龙，家住真定府常山县，百战百胜，
+后称为常胜将军。\n 
+只皆因，长坂坡前，一场鏖战，那赵云，单枪匹马，闯入曹营，砍倒大纛两杆，夺槊三条，马落陷坑，堪堪废命。
+曹孟德在山头之上见一穿白小将，白盔白甲白旗号，坐骑白龙马，手使亮银枪，实乃一员勇将。
+心想：我若收服此将，何愁大事不成！心中就有爱将之意，暗中有徐庶保护赵云，那徐庶自进得曹营，一语未发。
+今见赵将军马落陷坑、堪堪废命，口尊：“丞相莫非有爱将之意？”曹操言道：“正是”。
+徐庶言道：“何不收留此将！”曹操闻听，急忙传令：“令出山摇动，三军听分明，我要活赵云，不要死子龙。
+倘有一兵一将伤损赵将军之性命！八十三万人马，五十一员战将，与他一人抵命。”众将闻听，不敢近前，唯有后退。
+赵云，一仗怀揣幼主；二仗常胜将军之特勇，杀了个七进七出，这才闯出重围。\n 
+曹操一见，这样勇将，焉能放走？在后面紧紧追赶！追至在当阳桥前，张飞赶到，高叫：“四弟不必惊慌，
+某家在此，料也无妨！”让过赵云的人马。曹操赶到，不见赵云，只见一黑脸大汉，立于桥头之上。
+曹操忙问夏侯惇：“这黑脸大汉，他是何人”？夏侯惇言道：“他乃张飞，一‘莽撞人’。”曹操闻听，大吃一惊：
+想当初关羽在白马坡斩颜良诛文丑之时，曾对某家言道：他有一结拜三弟，姓张名飞，字翼德，
+在百万军中，能取上将之首级，如探囊取物，反掌观纹一般。今日一见，果然英勇。来呀，撤去某家青罗伞盖，
+观一观那莽撞人的武艺如何？” \n
+青罗伞盖撤下，只见张飞：
+豹头环眼、面如润铁、黑中透亮、亮中透黑、海下扎里扎煞一部黑钢髯，犹如钢针、恰似铁线。
+头戴镔铁盔、二龙斗宝，朱缨飘洒，上嵌八宝——云、罗、伞、盖、花、罐、鱼、长。
+身披锁子大叶连环甲，内衬皂罗袍，足登虎头战靴，跨下马万里烟云兽，手使丈八蛇矛，站在桥头之上，
+咬牙切齿，捶胸愤恨，大骂：“曹操听真，呔！现有你家张三爷在此，尔或攻或战、或进或退、或争或斗；
+不攻不战、不进不退、不争不斗，尔乃匹夫之辈！”
+大喊一声，曹兵吓退；大喊二声，顺水横流；大喊三声，把当阳桥喝断。
+后人有诗赞之曰：“长坂坡（当阳桥）前救赵云，吓退曹操百万军，姓张名飞字翼德，万古留芳莽撞人”！"""
+    return title, content
 
-        首先，这样的社会会标榜女人不求回报的付出，因为“你生为女人就有罪”；会要求女人“
-        精明能干/干活麻利”，因为女人天生低人一等，娶你为了服侍丈夫老爷的嘛！（我见过好多
-        福建的女孩特别能干上进，其实是对自己是女儿身的自卑的过度补偿）如果出现了“气管炎”，
-        在这部分地区是十分丢人和抬不起头的事情，会被整个社会耻笑。男人如果能有好几个女人，
-        是十分光荣的事情，女人要是出轨，就是十恶不赦天打雷劈——因为在这里女人最多男人价值的
-        0.5嘛，那必须1个男人占有2个以上女人，才符合价值定律啊！\n
-
-        于是，这就创造了一种可怕的代际轮回。"""
-    # get cover image(also top image)
+def GetImagesURL(opinion):
     cover_url = "https://secure.gravatar.com/avatar/0024710771815ef9b74881ab21ba4173?s=420"
-    image_searcher = BaiduImage(opinion_str)
+    image_searcher = BaiduImage(opinion)
     images_url = image_searcher.get_images_url()
     if len(images_url) > 0:
         cover_url = images_url[0]
-        
-    # TODO: insert other images into the article    
-    img_insert_tpl = "<img src=%s /img>" % cover_url    
+        return cover_url, images_url
+    else
+        return None
+    
+def Generate(title, date, content, images):
+    # TODO: insert other images into the article
+    cti = ""
+    image_cnt = 0
+    while content.find("。\n") != -1 or image_cnt >= len(images):
+        pre = content[:content.find("。")]
+        content = content[content.find("。")+1:]
+        pre = "<br><img src=%s /img><br><p>%s</p>" % (images[image_cnt], pre)
+        cti = cti + pre
+        image_cnt += 1
+        if image_cnt >= len(images):
+            pre = "<p>%s</p>" % content
+            cti = cti + pre
+            break
+            
     html_str ="""
         <html>
             <head>
@@ -79,30 +90,85 @@ def articles(message):
             <p>%s tabsun irumor</p>
             <br>
             %s
-            <p>%s</p>
             <br>
             <p>更多内容关注irumor</p>
             <img src="http://i.imgur.com/o8L9ItZ.jpg"/>
             </body>
-        </html>""" % (title_str, title_str, date_str, img_insert_tpl, content_str)
+        </html>""" % (title, title, date, cti)
+    return html_str
 
+# weixin server
+robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
+@robot.subscribe
+def subscribe(message):
+    return '欢迎关注irumor！'
+
+@robot.text
+def articles(message):
+    # max saved html number
+    max_number = 1000
+    opinion_str = message.content  
+    opinion_str = opinion_str.encode('utf-8')
+    # get date
+    date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+    # get article's title and content about the opinion
+    title, content, description = GetTitleContent(opinion_str)
+    # get cover image(also top image)
+    cover, images = GetImagesURL(opinion_str)
+        
+    # generate html content string
+    html_str = Generate(title, date, content, images)
+    # write the html string into html file
     temp_file_dir = "/var/ArticlePoolVolume/temp.html"
     html_file= open(temp_file_dir,"w")
     html_file.write(html_str)
     html_file.close()
-
+    # rename html file by its MD5 and record its images and birth-second
     md5 = GetFileMd5(temp_file_dir)
     article_url = "http://tabsun-nginx-web.daoapp.io"
-    if md5 is not None:        
+    if md5 is not None:
+        # rename
         article_url = "http://tabsun-nginx-web.daoapp.io/%s.html" % md5
         final_file_dir = "/var/ArticlePoolVolume/%s.html" % md5
         os.rename(temp_file_dir,final_file_dir)
+        # log its images
+        log_dir = "/var/ArticlePoolVolume/%s.txt" % md5
+        log_file = open(log_dir,"w")
+        for image in images:
+            log_file.write("%s\n", image)
+        log_file.close()
+        # log its birth-second
+        f = open("/var/ArticlePoolVolume/birth-second.txt","w+")
+        birth = "%s\n" % md5
+        f.write(birth)
+        f.close()
+        # remove over-flow lines
+        with open("/var/ArticlePoolVolume/birth-second.txt") as fin:
+            lines = fin.readlines()
+            if len(lines) > max_number:
+                md5 = lines[0]
+                # remove html
+                os.remove("/var/ArticlePoolVolume/%s.html" % md5)
+                # remove images and log
+                with open("/var/ArticlePoolVolume/%s.txt" % md5) as image_log:
+                    for each_image in image_log.readlines():
+                        os.remove("/var/ArticlePoolVolume/%s" % each_image)
+                os.remove("/var/ArticlePoolVolume/%s.txt" % md5)
+                # remove its info in birth-second
+                with open("/var/ArticlePoolVolume/new-birth-second.txt") as fout:
+                    fout.write(lines[1:])
+        if os.path.exists("/var/ArticlePoolVolume/new-birth-second.txt"):
+            os.remove("/var/ArticlePoolVolume/birth-second.txt")
+            os.rename("/var/ArticlePoolVolume/new-birth-second.txt","/var/ArticlePoolVolume/birth-second.txt")
+            
+        
+        
     
     return [
         [
-            title_str,
-            "I wrote WeRobot",
-            cover_url,
+            title,
+            description,
+            cover,
             article_url
         ]
     ]

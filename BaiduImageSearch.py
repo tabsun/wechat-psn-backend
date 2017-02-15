@@ -5,8 +5,20 @@ import urllib2 as urllib
 import random
 import re
 import os
-#from PIL import Image
+import hashlib
 
+def GetFileMd5(filename):
+    if not os.path.isfile(filename):
+        return None
+    myhash = hashlib.md5()
+    f = file(filename,'rb')
+    while True:
+        b = f.read(8096)
+        if not b :
+            break
+        myhash.update(b)
+    f.close()
+    return myhash.hexdigest()
 
 class BaiduImage():
 
@@ -31,12 +43,7 @@ class BaiduImage():
     def search(self):
         for i in range(0, self.__acJsonCount):
             url = self.__get_search_url(i * self.rn)
-            response = self.__get_response(url)
-            # tabsun
-            #log = open("log.html","w")
-            #log.write(response)
-            #log.close()
-            
+            response = self.__get_response(url)            
             image_url_list = self.__pick_image_urls(response)
             self.__imageList.extend(image_url_list)
 
@@ -45,30 +52,28 @@ class BaiduImage():
         num = random.randint(4, 6)
         urls = []
         count = 0
-        for image in self.__imageList:
-            if "sinaimg" in image:
-                continue
-            host = self.get_url_host(image)
+        for each_url in self.__imageList:
+            host = self.get_url_host(each_url)
             self.headers["Host"] = host
             if count < num:
                 try:
-                    #print image
-                    #req = urllib.Request(image, headers=self.headers)
-                    #img = urllib.urlopen(req, timeout=1)
-                    #tmp_file = open("tmp.jpg","wb")
-                    #tmp_file.write(img.read())
-                    #tmp_file.close()
-                    #if not os.path.isfile("tmp.jpg"):
-                    #    continue
-                    #else:
-                        #size = Image.open("tmp.jpg").size
-                    #    os.remove("tmp.jpg")
-                        #if size[0] < 0 or size[1] < 0 or size[0] > 5000 or size[1] > 5000:
-                        #    continue
-                        
-                    real_url = image #img.geturl()
-                    urls.append(real_url)
-                    count += 1
+                    # get image into /var/vo directory and rename it by its md5
+                    req = urllib.Request(each_url, headers=self.headers)
+                    data = urllib.urlopen(req, timeout=20)
+
+                    image_name = "/var/ArticlePoolVolume/images/%d.jpg" % count
+                    tmp_file = open(image_name,"wb")
+                    tmp_file.write(data.read())
+                    tmp_file.close()
+                    if not os.path.isfile(image_name):
+                        continue
+                    else:
+                        image_md5 = GetFileMd5(image_name)
+                        new_name = "/var/ArticlePoolVolume/images/%s.jpg" % image_md5
+                        os.rename(image_name, new_name)
+                        real_url = "images/%s.jpg" % image_md5
+                        urls.append(real_url)
+                        count += 1
                 except Exception as e:
                     count += 0
             else:
@@ -76,14 +81,15 @@ class BaiduImage():
         return urls
 
     def __pick_image_urls(self, response):
-        reg = r'"ObjURL":"(http.*?)"'
+        #reg = r'"ObjURL":"(http.*?)"'
+        reg = r'"thumbURL":"(.*?)"'
         imgre = re.compile(reg)
         imglist = re.findall(imgre, response)
-        real_urls = []
-        for link in imglist:
-            if "imgtn.bdimg.com" not in link:
-                real_urls.append(link.replace("\/","/"))
-        return real_urls
+        #real_urls = []
+        #for link in imglist:
+        #    if "imgtn.bdimg.com" not in link:
+        #        real_urls.append(link.replace("\/","/"))
+        return imglist
 
     def __get_response(self, url):
         page = urllib.urlopen(url)
