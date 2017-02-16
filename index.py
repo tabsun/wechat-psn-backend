@@ -107,7 +107,7 @@ def Generate(title, date, content, images):
     return html_str
 
 # weixin server
-# robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
+robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
 @robot.subscribe
 def subscribe(message):
     return '欢迎关注irumor！'
@@ -183,66 +183,4 @@ def articles(message):
         ]
     ]
 
-# robot.run(host='0.0.0.0',port=80)
-
-# test
-def test(content):
-    # max saved html number
-    max_number = 10
-    opinion_str = content  
-    opinion_str = opinion_str.encode('utf-8')
-    # get date
-    date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
-    # get article's title and content about the opinion
-    title, content, description = GetTitleContent(opinion_str)
-    log_this("title",title)
-    log_this("content",content)
-    log_this("description", description)
-    # get cover image(also top image)
-    cover, images = GetImagesURL(opinion_str)
-    log_this("cover", cover)
-    
-    # generate html content string
-    html_str = Generate(title, date, content, images)
-    # write the html string into html file
-    temp_file_dir = "temp.html"
-    html_file= open(temp_file_dir,"w")
-    html_file.write(html_str)
-    html_file.close()
-    # rename html file by its MD5 and record its images and birth-second
-    md5 = GetFileMd5(temp_file_dir)
-    article_url = "http://tabsun-nginx-web.daoapp.io"
-    if md5 is not None:
-        # rename
-        article_url = "http://tabsun-nginx-web.daoapp.io/%s.html" % md5
-        final_file_dir = "%s.html" % md5
-        os.rename(temp_file_dir,final_file_dir)
-        # log its images
-        log_dir = "%s.txt" % md5
-        log_file = open(log_dir,"w")
-        for image in images:
-            log_file.write("%s\n", image)
-        log_file.close()
-        # log its birth-second
-        f = open("birth-second.txt","w+")
-        birth = "%s\n" % md5
-        f.write(birth)
-        f.close()
-        # remove over-flow lines
-        with open("birth-second.txt") as fin:
-            lines = fin.readlines()
-            if len(lines) > max_number:
-                md5 = lines[0]
-                # remove html
-                os.remove("%s.html" % md5)
-                # remove images and log
-                with open("%s.txt" % md5) as image_log:
-                    for each_image in image_log.readlines():
-                        os.remove("%s" % each_image)
-                os.remove("%s.txt" % md5)
-                # remove its info in birth-second
-                with open("new-birth-second.txt") as fout:
-                    fout.write(lines[1:])
-        if os.path.exists("new-birth-second.txt"):
-            os.remove("birth-second.txt")
-            os.rename("new-birth-second.txt","birth-second.txt")
+robot.run(host='0.0.0.0',port=80)
