@@ -44,28 +44,6 @@ RUN pip install --no-cache-dir virtualenv
 RUN pip install --no-cache-dir pycrypto
 RUN pip install --no-cache-dir lxml
 
-# install GoogleScrapper
-RUN set -x \
-	&& mkdir -p /usr/src/python \
-	&& curl -SL "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz" -o python.tar.xz \
-	&& curl -SL "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz.asc" -o python.tar.xz.asc \
-	&& tar -xJC /usr/src/python --strip-components=1 -f python.tar.xz \
-	&& rm python.tar.xz* \
-	&& cd /usr/src/python \
-	&& ./configure --enable-shared --enable-unicode=ucs4 \
-	&& make -j$(nproc) \
-	&& make install \
-	&& ldconfig \
-	&& curl -SL 'https://bootstrap.pypa.io/get-pip.py' | python3 \
-	&& find /usr/local \
-		\( -type d -a -name test -o -name tests \) \
-		-o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
-		-exec rm -rf '{}' + \
-	&& rm -rf /usr/src/python
-	
-RUN pip install --no-cache-dir virtualenv
-RUN pip install git+git://github.com/NikolaiT/GoogleScraper/
-
 # copy code
 COPY ./ /tmp/
 WORKDIR /tmp
