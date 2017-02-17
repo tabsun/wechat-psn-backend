@@ -38,8 +38,6 @@ RUN set -x \
 # install "virtualenv", since the vast majority of users of this image will want it
 RUN pip install --no-cache-dir virtualenv 
 
-# revised for DaoCloud.io
-
 # these maybe install
 RUN pip install --no-cache-dir pycrypto
 RUN pip install --no-cache-dir lxml

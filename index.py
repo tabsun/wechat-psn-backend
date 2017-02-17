@@ -124,6 +124,7 @@ def articles(message):
     title, content, description = GetTitleContent(opinion_str)
     # get cover image(also top image)
     cover, images = GetImagesURL(opinion_str)
+    cover = "http://tabsun-nginx-web.daoapp.io/" + cover
     
     # generate html content string
     html_str = Generate(title, date, content, images)
