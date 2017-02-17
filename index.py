@@ -116,7 +116,7 @@ def subscribe(message):
 def articles(message):
     # max saved html number
     max_number = 10
-    opinion_str = content  
+    opinion_str = message.content  
     opinion_str = opinion_str.encode('utf-8')
     # get date
     date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
