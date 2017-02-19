@@ -61,7 +61,8 @@ def GetTitleContent(opinion):
                 万古留芳莽撞人”！"""
     description = "在想当初，后汉三国年间，有一位莽撞人。"
 
-    global goo
+    
+    goo = Goose({'stopwords_class': StopWordsChinese})
     init_len = 0
     i = 0
     while i < min(5, len(results_pair)):
@@ -201,4 +202,3 @@ def articles(message):
     ]
 
 robot.run(host='0.0.0.0',port=80)
-global goo = Goose({'stopwords_class': StopWordsChinese})
