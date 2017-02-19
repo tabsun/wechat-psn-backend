@@ -37,6 +37,11 @@ RUN set -x \
 
 # install "virtualenv", since the vast majority of users of this image will want it
 RUN pip install --no-cache-dir virtualenv 
+# install python-goose to extract url article contents
+RUN git clone https://github.com/grangier/python-goose.git \
+	&& cd python-goose \
+	&& pip install -r requirements.txt \
+	&& python setup.py install
 
 # these maybe install
 RUN pip install --no-cache-dir pycrypto
