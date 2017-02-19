@@ -4,6 +4,7 @@ import time
 from string import Template
 from BaiduImageSearch import BaiduImage
 from BaiduSearch import BaiduSearch
+from goose import Goose
 import hashlib
 import os
 
@@ -29,7 +30,7 @@ def GetFileMd5(filename):
 def GetTitleContent(opinion):
     searcher = BaiduSearch(opinion) 
     results_pair = searcher.originalURLs
-    
+    # default title & description & content
     title = results_pair[0][1]
     content = """在想当初，后汉三国年间，有一位莽撞人。
                 自桃园三结义以来，大爷，姓刘名备字玄德，家住大树楼桑；二弟，姓关名羽字云长，家住山西蒲州解梁县；
@@ -58,6 +59,18 @@ def GetTitleContent(opinion):
                 后人有诗赞之曰：“长坂坡（当阳桥）前救赵云，吓退曹操百万军，姓张名飞字翼德，
                 万古留芳莽撞人”！"""
     description = "在想当初，后汉三国年间，有一位莽撞人。"
+
+    goo = Goose()
+    init_len = 0
+    for result_pair in results_pair:
+        url = result_pair[1]
+        article = goo.extract(url=url)
+        if len(article.cleaned_text) > init_len:
+            title = article.title
+            description = article.meta_description
+            content = article.cleaned_text
+            init_len = len(article.cleaned_text)
+    
     return title, content, description
 
 def GetImagesURL(opinion):
