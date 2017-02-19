@@ -63,13 +63,13 @@ def GetTitleContent(opinion):
 
     goo = Goose({'stopwords_class': StopWordsChinese})
     init_len = 0
-    for result_pair in results_pair:
+    for result_pair in results_pair[:5]
         cur_url = result_pair[0]
         article = goo.extract(url=cur_url)
         if len(article.cleaned_text) > init_len:
             title = article.title
             description = article.meta_description
-            content = article.cleaned_text
+            content = article.cleaned_text.encode('utf-8')
             init_len = len(article.cleaned_text)
     
     return title, content, description
