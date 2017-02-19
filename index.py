@@ -5,6 +5,7 @@ from string import Template
 from BaiduImageSearch import BaiduImage
 from BaiduSearch import BaiduSearch
 from goose import Goose
+from goose.text import StopWordsChinese
 import hashlib
 import os
 
@@ -60,7 +61,7 @@ def GetTitleContent(opinion):
                 万古留芳莽撞人”！"""
     description = "在想当初，后汉三国年间，有一位莽撞人。"
 
-    goo = Goose()
+    goo = Goose({'stopwords_class': StopWordsChinese})
     init_len = 0
     for result_pair in results_pair:
         url = result_pair[1]
