@@ -65,9 +65,9 @@ def GetTitleContent(opinion):
     for result_pair in results_pair:
         url = result_pair[1]
         article = goo.extract(url=url)
-        print url
-        print len(article.cleaned_text)
-        print init_len
+        log_this("url",url)
+        log_this("len",len(article.cleaned_text))
+        log_this("init_len",init_len)
         if len(article.cleaned_text) > init_len:
             title = article.title
             description = article.meta_description
