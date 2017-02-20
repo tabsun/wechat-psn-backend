@@ -23,6 +23,7 @@ def GetFileMd5(filename):
 class BaiduImage():
 
     def __init__(self, keyword, count=10, save_path="img", rn=60):
+        self.save_image_path = "/var/vo"
         self.keyword = keyword
         self.count = count
         self.save_path = save_path
@@ -57,11 +58,11 @@ class BaiduImage():
             self.headers["Host"] = host
             if count < num:
                 try:
-                    # get image into /var/vo directory and rename it by its md5
+                    # get image into self.save_image_path directory and rename it by its md5
                     req = urllib.Request(each_url, headers=self.headers)
                     data = urllib.urlopen(req, timeout=20)
 
-                    image_name = "/var/ArticlePoolVolume/images/%d.jpg" % count
+                    image_name = "%s/images/%d.jpg" % (self.save_image_path,count)
                     tmp_file = open(image_name,"wb")
                     tmp_file.write(data.read())
                     tmp_file.close()
@@ -69,7 +70,7 @@ class BaiduImage():
                         continue
                     else:
                         image_md5 = GetFileMd5(image_name)
-                        new_name = "/var/ArticlePoolVolume/images/%s.jpg" % image_md5
+                        new_name = "%s/images/%s.jpg" % (self.save_image_path,image_md5)
                         if not os.path.exists(new_name):
                             os.rename(image_name, new_name)
                         else:

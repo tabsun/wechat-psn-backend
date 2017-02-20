@@ -9,6 +9,9 @@ from goose.text import StopWordsChinese
 import hashlib
 import os
 
+nginx_host = "http://123.206.47.224:32770/"
+volume_dir = "/var/vo"
+
 def log_this(name, content):
     f = open("%s.txt" % name, "w")
     f.write(content)
@@ -89,13 +92,15 @@ def GetImagesURL(opinion):
     
 def Generate(title, date, content, images):
     # TODO: insert other images into the article
+    global nginx_host
     cti = ""
     split_flag = "。"
     image_cnt = 0
     while content.find(split_flag) != -1 or image_cnt >= len(images):
         pre = content[:content.find(split_flag)+len(split_flag)]
         content = content[content.find(split_flag)+len(split_flag):]
-        pre = "<br><img src=%s/%s /img><br><p>%s</p>" % ("http://tabsun-nginx-web.daoapp.io", images[image_cnt], pre)
+        pre = "<br><img src=%s/%s /img><br><p>%s</p>" % \
+              (nginx_host, images[image_cnt], pre)
         cti = cti + pre
         image_cnt += 1
         if image_cnt >= len(images):
@@ -133,6 +138,8 @@ def subscribe(message):
 
 @robot.text
 def articles(message):
+    global nginx_host
+    global volume_dir
     # max saved html number
     max_number = 10
     opinion_str = message.content  
@@ -143,57 +150,58 @@ def articles(message):
     title, content, description = GetTitleContent(opinion_str)
     # get cover image(also top image)
     cover, images = GetImagesURL(opinion_str)
-    cover = "http://tabsun-nginx-web.daoapp.io/" + cover
+    cover = nginx_host + cover
     
     # generate html content string
     html_str = Generate(title, date, content, images)
     # write the html string into html file
-    temp_file_dir = "/var/ArticlePoolVolume/temp.html"
+    temp_file_dir = "%s/temp.html" % volume_dir
     html_file= open(temp_file_dir,"w")
     html_file.write(html_str)
     html_file.close()
     # rename html file by its MD5 and record its images and birth-second
     md5 = GetFileMd5(temp_file_dir)
-    article_url = "http://tabsun-nginx-web.daoapp.io"
+    article_url = nginx_host
     if md5 is not None:
         # rename
-        article_url = "http://tabsun-nginx-web.daoapp.io/%s.html" % md5
-        final_file_dir = "/var/ArticlePoolVolume/%s.html" % md5
+        article_url = "%s/%s.html" % (nginx_host,md5)
+        final_file_dir = "%s/%s.html" % (volume_dir,md5)
         if os.path.exists(final_file_dir):
             os.remove(temp_file_dir)
         else:
             os.rename(temp_file_dir,final_file_dir)
             # log its images
-            log_dir = "/var/ArticlePoolVolume/%s.txt" % md5
+            log_dir = "%s/%s.txt" % (volume_dir,md5)
             log_file = open(log_dir,"w")
             for image in images:
                 log_file.write("%s\n" % image)
             log_file.close()
             # log its birth-second
-            f = open("/var/ArticlePoolVolume/birth-second.txt","a")
+            f = open("%s/birth-second.txt" % volume_dir,"a")
             birth = "%s\n" % md5
             f.write(birth)
             f.close()
             # remove over-flow lines
-            with open("/var/ArticlePoolVolume/birth-second.txt") as fin:
+            with open("%s/birth-second.txt" % volume_dir) as fin:
                 lines = fin.readlines()
                 if len(lines) > max_number:
                     md5 = lines[0][:-1]
                     # remove html
-                    os.remove("/var/ArticlePoolVolume/%s.html" % md5)
+                    os.remove("%s/%s.html" % (volume_dir,md5))
                     # remove images and log
-                    with open("/var/ArticlePoolVolume/%s.txt" % md5) as image_log:
+                    with open("%s/%s.txt" % (volume_dir,md5)) as image_log:
                         for each_image in image_log.readlines():
-                            os.remove("/var/ArticlePoolVolume/%s" % each_image[:-1])
-                    os.remove("/var/ArticlePoolVolume/%s.txt" % md5)
+                            os.remove("%s/%s" % (volume_dir,each_image[:-1]))
+                    os.remove("%s/%s.txt" % (volume_dir,md5))
                     # remove its info in birth-second
-                    fout = open("/var/ArticlePoolVolume/new-birth-second.txt","w")
+                    fout = open("%s/new-birth-second.txt" % volume_dir,"w")
                     for lid in range(1,len(lines)):
                         fout.write(lines[lid])
                     fout.close()
-            if os.path.exists("/var/ArticlePoolVolume/new-birth-second.txt"):
-                os.remove("/var/ArticlePoolVolume/birth-second.txt")
-                os.rename("/var/ArticlePoolVolume/new-birth-second.txt","/var/ArticlePoolVolume/birth-second.txt")  
+            if os.path.exists("%s/new-birth-second.txt" % volume_dir):
+                os.remove("%s/birth-second.txt" % volume_dir)
+                os.rename("%s/new-birth-second.txt"% volume_dir,\
+                          "%s/birth-second.txt" % volume_dir)  
     return [
         [
             title,
