@@ -99,8 +99,8 @@ def Generate(title, date, content, images):
     while content.find(split_flag) != -1 or image_cnt >= len(images):
         pre = content[:content.find(split_flag)+len(split_flag)]
         content = content[content.find(split_flag)+len(split_flag):]
-        pre = "<br><img src=%s/%s /img><br><p>%s</p>" % \
-              (nginx_host, images[image_cnt], pre)
+        pre = "<br><img src=%s /img><br><p>%s</p>" % \
+              (images[image_cnt], pre)
         cti = cti + pre
         image_cnt += 1
         if image_cnt >= len(images):
