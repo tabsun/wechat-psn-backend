@@ -22,7 +22,7 @@ def GetFileMd5(filename):
 
 class BaiduImage():
 
-    def __init__(self, count=10, save_path="img", rn=60):
+    def __init__(self, keyword, count=10, save_path="img", rn=60):
         self.keyword = keyword
         self.count = count
         self.save_path = save_path
