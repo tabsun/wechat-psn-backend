@@ -62,18 +62,18 @@ def GetTitleContent(opinion):
     description = "在想当初，后汉三国年间，有一位莽撞人。"
 
     
-##    goo = Goose({'stopwords_class': StopWordsChinese})
-##    init_len = 0
-##    i = 0
-##    while i < min(5, len(results_pair)):
-##        result_pair = results_pair[i]
-##        cur_url = result_pair[0]
-##        cur_article = goo.extract(url=cur_url)
-##        if len(cur_article.cleaned_text) > init_len:
-##            title = cur_article.title
-##            description = cur_article.meta_description
-##            content = cur_article.cleaned_text.encode('utf-8')
-##            init_len = len(cur_article.cleaned_text)
+    goo = Goose({'stopwords_class': StopWordsChinese})
+    init_len = 0
+    i = 0
+    while i < min(5, len(results_pair)):
+        result_pair = results_pair[i]
+        cur_url = result_pair[0]
+        cur_article = goo.extract(url=cur_url)
+        if len(cur_article.cleaned_text) > init_len:
+            title = cur_article.title
+            description = cur_article.meta_description
+            content = cur_article.cleaned_text.encode('utf-8')
+            init_len = len(cur_article.cleaned_text)
     
     return title, content, description
 
