@@ -68,12 +68,12 @@ def GetTitleContent(opinion):
     while i < min(5, len(results_pair)):
         result_pair = results_pair[i]
         cur_url = result_pair[0]
-        article = goo.extract(url=cur_url)
-        if len(article.cleaned_text) > init_len:
-            title = article.title
-            description = article.meta_description
-            content = article.cleaned_text.encode('utf-8')
-            init_len = len(article.cleaned_text)
+        cur_article = goo.extract(url=cur_url)
+        if len(cur_article.cleaned_text) > init_len:
+            title = cur_article.title
+            description = cur_article.meta_description
+            content = cur_article.cleaned_text.encode('utf-8')
+            init_len = len(cur_article.cleaned_text)
     
     return title, content, description
 
