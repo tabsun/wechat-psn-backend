@@ -23,32 +23,14 @@ def GetFileMd5(filename):
 class BaiduImage():
 
     def __init__(self, count=10, save_path="img", rn=60):
-        self.keyword = None
+        self.keyword = keyword
         self.count = count
         self.save_path = save_path
         self.rn = rn
 
         self.__imageList = []
 
-        self.__encodeKeyword = None
-        self.__acJsonCount = self.__get_ac_json_count()
-
-        self.user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36"
-        self.headers = {'User-Agent': self.user_agent, "Upgrade-Insecure-Requests": 1,
-                        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                        "Accept-Encoding": "gzip, deflate, sdch",
-                        "Accept-Language": "zh-CN,zh;q=0.8,en;q=0.6",
-                        "Cache-Control": "no-cache"}
-
-    def reinit(self, count=10, save_path="img", rn=60):
-        self.keyword = None
-        self.count = count
-        self.save_path = save_path
-        self.rn = rn
-
-        self.__imageList = []
-
-        self.__encodeKeyword = None
+        self.__encodeKeyword = quote(keyword)
         self.__acJsonCount = self.__get_ac_json_count()
 
         self.user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36"
@@ -66,11 +48,6 @@ class BaiduImage():
             self.__imageList.extend(image_url_list)
 
     def get_images_url(self, keyword):
-        # first change the keyword
-        self.reinit()
-        self.keyword = keyword
-        self.__encodeKeyword = quote(keyword)
-        
         self.search()
         num = random.randint(4, 6)
         urls = []

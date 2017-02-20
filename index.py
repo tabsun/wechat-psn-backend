@@ -62,7 +62,7 @@ def GetTitleContent(opinion):
     description = "在想当初，后汉三国年间，有一位莽撞人。"
 
     
-##    global goo
+##    goo = Goose({'stopwords_class': StopWordsChinese})
 ##    init_len = 0
 ##    i = 0
 ##    while i < min(5, len(results_pair)):
@@ -79,8 +79,8 @@ def GetTitleContent(opinion):
 
 def GetImagesURL(opinion):
     cover_url = "https://secure.gravatar.com/avatar/0024710771815ef9b74881ab21ba4173?s=420"
-    global image_searcher
-    images_url = image_searcher.get_images_url(opinion)
+    image_searcher = BaiduImage(opinion)
+    images_url = image_searcher.get_images_url()
     if len(images_url) > 0:
         cover_url = images_url[0]
         return cover_url, images_url
@@ -125,8 +125,7 @@ def Generate(title, date, content, images):
 
 # weixin server
 robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
-goo = Goose({'stopwords_class': StopWordsChinese})
-image_searcher = BaiduImage()
+
 
 @robot.subscribe
 def subscribe(message):
