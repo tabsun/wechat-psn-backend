@@ -81,8 +81,8 @@ def GetTitleContent(opinion):
     if source_url is not None and source_title is not None:  
         goo = Goose({'stopwords_class': StopWordsChinese})
         article = goo.extract(url=source_url)
-        title = article.title
-        description = article.meta_description
+        title = source_title
+        description = article.meta_description.encode('utf-8')
         content = article.cleaned_text.encode('utf-8')
     
     return title, content, description
@@ -98,7 +98,6 @@ def GetImagesURL(opinion):
         return None
     
 def Generate(title, date, content, images):
-    # TODO: insert other images into the article
     global nginx_host
     cti = ""
     split_flag = "。"
