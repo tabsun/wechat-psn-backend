@@ -4,6 +4,7 @@ import time
 from string import Template
 from BaiduImageSearch import BaiduImage
 from BaiduSearch import BaiduSearch
+from SentenceSim import SentenceSim
 from goose import Goose
 from goose.text import StopWordsChinese
 import hashlib
@@ -65,18 +66,24 @@ def GetTitleContent(opinion):
     description = "在想当初，后汉三国年间，有一位莽撞人。"
 
     
-##    goo = Goose({'stopwords_class': StopWordsChinese})
-##    init_len = 0
-##    i = 0
-##    while i < min(5, len(results_pair)):
-##        result_pair = results_pair[i]
-##        cur_url = result_pair[0]
-##        cur_article = goo.extract(url=cur_url)
-##        if len(cur_article.cleaned_text) > init_len:
-##            title = cur_article.title
-##            description = cur_article.meta_description
-##            content = cur_article.cleaned_text.encode('utf-8')
-##            init_len = len(cur_article.cleaned_text)
+    source_url = None
+    source_title = None
+    max_sim = 0.0
+    ssim = SentenceSim("SogouLabDic.dic")
+    for result_pair in results_pair:
+        cur_title = result_pair[1]
+        cur_url = result_pair[0]      
+        cur_sim = ssim.get_sim(opinion, cur_title)
+        if cur_sim > max_sim:
+            max_sim = cur_sim
+            source_url = cur_url
+            source_title = cur_title
+    if source_url is not None and source_title is not None:  
+        goo = Goose({'stopwords_class': StopWordsChinese})
+        article = goo.extract(url=source_url)
+        title = article.title
+        description = article.description
+        content = article.cleaned_text.encode('utf-8')
     
     return title, content, description
 
