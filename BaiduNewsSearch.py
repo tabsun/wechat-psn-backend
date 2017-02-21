@@ -21,7 +21,8 @@ class BaiduNewsSearch:
             self.json = {}
         self.cookies = self.rep.cookies
 
-     def get_resuls(self):
-         results = []
-         for each_pair in self.doc('.c-title a').items():
-             results.append((each.attr.href,each.text()))
+    def get_results(self):
+        results = []
+        for each_pair in self.doc('.c-title a').items():
+            results.append((each.attr.href,each.text()))
+        return results
