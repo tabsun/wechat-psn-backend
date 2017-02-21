@@ -99,7 +99,7 @@ def GetImagesURL(opinion):
 def Generate(title, date, content, images):
     global nginx_host
     cti = ""
-    split_flag = "。"
+    split_flag = "\n"
     image_cnt = 0
     while content.find(split_flag) != -1 or image_cnt >= len(images):
         pre = content[:content.find(split_flag)+len(split_flag)]
