@@ -79,12 +79,15 @@ def GetTitleContent(opinion):
             source_title = cur_title
     if source_url is not None and source_title is not None:  
         goo = Goose({'stopwords_class': StopWordsChinese})
-        log_this("source_url", source_url)
-        article = goo.extract(url=source_url)
-        title = source_title
-        description = article.meta_description.encode('utf-8')
-        content = article.cleaned_text.encode('utf-8')
-        log_this("content", content)
+        #log_this("source_url", source_url)
+        try:
+            article = goo.extract(url=source_url)
+            title = source_title
+            description = article.meta_description.encode('utf-8')
+            content = article.cleaned_text.encode('utf-8')
+        except:
+            title = source_title
+        #log_this("content", content)
         
     return title, content, description
 
