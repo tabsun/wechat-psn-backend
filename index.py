@@ -65,25 +65,36 @@ def GetTitleContent(opinion):
                 万古留芳莽撞人”！"""
     description = "在想当初，后汉三国年间，有一位莽撞人。"
 
-    
-    source_url = None
-    source_title = None
-    max_sim = 0.0
-    ssim = SentenceSim("SogouLabDic.dic")
-    for result_pair in results_pair:
-        cur_title = result_pair[1]
-        cur_url = result_pair[0]      
-        cur_sim = ssim.get_sim(opinion, cur_title)
-        if cur_sim > max_sim:
-            max_sim = cur_sim
-            source_url = cur_url
-            source_title = cur_title
-    if source_url is not None and source_title is not None:  
-        goo = Goose({'stopwords_class': StopWordsChinese})
-        article = goo.extract(url=source_url)
-        title = source_title
-        description = article.meta_description.encode('utf-8')
-        content = article.cleaned_text.encode('utf-8')
+    goo = Goose({'stopwords_class': StopWordsChinese})
+    init_len = 0
+    i = 0
+    while i < min(5, len(results_pair)):
+        result_pair = results_pair[i]
+        cur_url = result_pair[0]
+        cur_article = goo.extract(url=cur_url)
+        if len(cur_article.cleaned_text) > init_len:
+            title = cur_article.title
+            description = cur_article.meta_description.encode('utf-8')
+            content = cur_article.cleaned_text.encode('utf-8')
+            init_len = len(cur_article.cleaned_text)
+##    source_url = None
+##    source_title = None
+##    max_sim = 0.0
+##    ssim = SentenceSim("SogouLabDic.dic")
+##    for result_pair in results_pair:
+##        cur_title = result_pair[1]
+##        cur_url = result_pair[0]      
+##        cur_sim = ssim.get_sim(opinion, cur_title)
+##        if cur_sim > max_sim:
+##            max_sim = cur_sim
+##            source_url = cur_url
+##            source_title = cur_title
+##    if source_url is not None and source_title is not None:  
+##        goo = Goose({'stopwords_class': StopWordsChinese})
+##        article = goo.extract(url=source_url)
+##        title = source_title
+##        description = article.meta_description.encode('utf-8')
+##        content = article.cleaned_text.encode('utf-8')
     
     return title, content, description
 
