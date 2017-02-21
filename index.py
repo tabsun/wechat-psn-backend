@@ -9,7 +9,7 @@ from goose.text import StopWordsChinese
 import hashlib
 import os
 
-nginx_host = "http://123.206.47.224:32770/"
+nginx_host = "http://www.irumor.cn:443/"
 volume_dir = "/var/vo"
 
 def log_this(name, content):
