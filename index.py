@@ -83,7 +83,8 @@ def GetTitleContent(opinion):
         title = source_title
         description = article.meta_description.encode('utf-8')
         content = article.cleaned_text.encode('utf-8')
-    
+        log_this("content", content)
+        
     return title, content, description
 
 def GetImagesURL(opinion):
@@ -112,7 +113,7 @@ def Generate(title, date, content, images):
             pre = "<p>%s</p>" % content
             cti = cti + pre
             break
-            
+    log_this("cti", cti)        
     html_str ="""
         <html>
             <head>
