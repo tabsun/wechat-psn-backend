@@ -82,7 +82,7 @@ def GetTitleContent(opinion):
         goo = Goose({'stopwords_class': StopWordsChinese})
         article = goo.extract(url=source_url)
         title = article.title
-        description = article.description
+        description = article.meta_description
         content = article.cleaned_text.encode('utf-8')
     
     return title, content, description
