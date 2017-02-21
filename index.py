@@ -83,8 +83,8 @@ def GetTitleContent(opinion):
         try:
             article = goo.extract(url=source_url)
             title = source_title
-            description = article.meta_description.encode('utf-8')
-            content = article.cleaned_text.encode('utf-8')
+            description = article.meta_description
+            content = article.cleaned_text
         except:
             title = source_title
         #log_this("content", content)
