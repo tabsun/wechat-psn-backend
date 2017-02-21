@@ -24,5 +24,5 @@ class BaiduNewsSearch:
     def get_results(self):
         results = []
         for each_pair in self.doc('.c-title a').items():
-            results.append((each.attr.href,each.text()))
+            results.append((each_pair.attr.href,each_pair.text()))
         return results
