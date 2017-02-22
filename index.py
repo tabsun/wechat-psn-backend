@@ -157,7 +157,7 @@ def Generate(title, date, content, images):
             <br>
             <font face="微软雅黑" size="12">更多内容关注irumor</font>
             <br>
-            <img src="http://i.imgur.com/o8L9ItZ.jpg" width="100%"/>
+            <img src="http://i.imgur.com/o8L9ItZ.jpg" width="100%%"/>
             </body>
         </html>""" % (title, title, date, cti)
     return html_str
