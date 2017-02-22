@@ -5,8 +5,10 @@ from string import Template
 from BaiduImageSearch import BaiduImage
 from BaiduNewsSearch import BaiduNewsSearch
 from SentenceSim import SentenceSim
+from Html2Article import Html2Article
 from goose import Goose
 from goose.text import StopWordsChinese
+
 import hashlib
 import urllib2
 import os
@@ -65,7 +67,8 @@ def GetTitleContent(opinion):
                 后人有诗赞之曰：“长坂坡（当阳桥）前救赵云，吓退曹操百万军，姓张名飞字翼德，
                 万古留芳莽撞人”！"""
     description = "在想当初，后汉三国年间，有一位莽撞人。"
-    
+
+    end_flag = "。"
     source_url = None
     source_title = None
     max_sim = 0.0
@@ -86,8 +89,24 @@ def GetTitleContent(opinion):
         title = source_title
         description = article.meta_description.encode('utf-8')
         content = article.cleaned_text.encode('utf-8')
-        
-        log_this("content", content)
+        # once goose fail use html2article
+        if len(content) == 0:
+            convertor = Html2Article()
+            content = convertor.get_article(source_url)
+            description = content[:content.find(end_flag)+len(end_flag)]
+            
+    # once html2article fail, we loop all candidate urls to extract one content
+    if len(content) == 0:
+        for result_pair in results_pair:
+            cur_title = result_pair[1]
+            cur_url = result_pair[0]
+            convertor = Html2Article()
+            cur_content = convertor.get_article(cur_url)
+            if len(cur_content) > len(content):
+                content = cur_content
+                title = cur_title
+                description = content[:content.find(end_flag)+len(end_flag)]
+    log_this("content", content)
         
     return title, content, description
 
