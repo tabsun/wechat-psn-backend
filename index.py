@@ -8,6 +8,7 @@ from SentenceSim import SentenceSim
 from goose import Goose
 from goose.text import StopWordsChinese
 import hashlib
+import urllib2
 import os
 
 nginx_host = "http://www.irumor.cn:443/"
@@ -81,8 +82,11 @@ def GetTitleContent(opinion):
         source_url = 'http://liuzhou.house.qq.com/a/20161103/011174.htm'
         goo = Goose({'stopwords_class': StopWordsChinese})
         log_this("source_url", source_url)
-        
-        article = goo.extract(url=source_url)
+
+        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
+        response = opener.open(source_url)
+        raw_html = response.read()
+        article = goo.extract(raw_html=raw_html)
         title = source_title
         description = article.meta_description.encode('utf-8')
         content = article.cleaned_text.encode('utf-8')
