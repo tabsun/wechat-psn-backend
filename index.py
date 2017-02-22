@@ -64,7 +64,7 @@ def GetTitleContent(opinion):
                 后人有诗赞之曰：“长坂坡（当阳桥）前救赵云，吓退曹操百万军，姓张名飞字翼德，
                 万古留芳莽撞人”！"""
     description = "在想当初，后汉三国年间，有一位莽撞人。"
-
+    
     source_url = None
     source_title = None
     max_sim = 0.0
@@ -80,13 +80,12 @@ def GetTitleContent(opinion):
     if source_url is not None and source_title is not None:  
         goo = Goose({'stopwords_class': StopWordsChinese})
         #log_this("source_url", source_url)
-        try:
-            article = goo.extract(url=source_url)
-            title = source_title
-            description = article.meta_description
-            content = article.cleaned_text
-        except:
-            title = source_title
+        
+        article = goo.extract(url=source_url)
+        title = source_title
+        description = article.meta_description.encode('utf-8')
+        content = article.cleaned_text.encode('utf-8')
+        
         #log_this("content", content)
         
     return title, content, description
@@ -117,7 +116,7 @@ def Generate(title, date, content, images):
             pre = "<p>%s</p>" % content
             cti = cti + pre
             break
-    log_this("cti", cti)        
+    #log_this("cti", cti)        
     html_str ="""
         <html>
             <head>
@@ -173,7 +172,9 @@ def articles(message):
     # rename html file by its MD5 and record its images and birth-second
     md5 = GetFileMd5(temp_file_dir)
     article_url = nginx_host
-    if md5 is not None:
+    if md5 is None or len(content) == 0 or title is None or len(images) == 0:
+        article_url = "%s/index.html" % nginx_host
+    else:
         # rename
         article_url = "%s/%s.html" % (nginx_host,md5)
         final_file_dir = "%s/%s.html" % (volume_dir,md5)
