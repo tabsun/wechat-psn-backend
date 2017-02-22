@@ -77,7 +77,8 @@ def GetTitleContent(opinion):
             max_sim = cur_sim
             source_url = cur_url
             source_title = cur_title
-    if source_url is not None and source_title is not None:  
+    if source_url is not None and source_title is not None:
+        source_url = 'http://liuzhou.house.qq.com/a/20161103/011174.htm'
         goo = Goose({'stopwords_class': StopWordsChinese})
         log_this("source_url", source_url)
         
