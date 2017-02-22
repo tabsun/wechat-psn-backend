@@ -149,9 +149,9 @@ def Generate(title, date, content, images):
             </head>
 
             <body>
-            <h2>%s</h2>
+            <h1><font color="blue">%s</font></h1>
             <hr />
-            <p>%s tabsun irumor</p>
+            <font size="10">%s tabsun irumor</font>
             <br>
             %s
             <br>
