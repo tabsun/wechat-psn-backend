@@ -5,8 +5,6 @@ import zlib
 import cookielib
 import re
 import sys
-import numpy as np
-import pylab as pl
 
 class Html2Article():
     def __init__(self):
