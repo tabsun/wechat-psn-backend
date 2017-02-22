@@ -131,12 +131,12 @@ def Generate(title, date, content, images):
         while content.find(split_flag) != -1 or image_cnt >= len(images):
             pre = content[:content.find(split_flag)+len(split_flag)]
             content = content[content.find(split_flag)+len(split_flag):]
-            pre = '<br><div align="center"><img src=%s width="100%"/></div><br><p>%s</p>' % \
-                  (images[image_cnt], pre)
+            pre = '<br><div align="center"><img src=' + images[image_cnt] + \
+                  'width="100%"/></div><br><p>' + pre + '</p>'
             cti = cti + pre
             image_cnt += 1
             if image_cnt >= len(images):
-                pre = '<font face="微软雅黑" size="12">%s</font>' % content
+                pre = '<font face="微软雅黑" size="12">' + content + '</font>'
                 cti = cti + pre
                 break
     #log_this("cti", cti)        
