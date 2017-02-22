@@ -89,7 +89,6 @@ def GetTitleContent(opinion):
         content = article.cleaned_text.encode('utf-8')
         
         log_this("content", content)
-        log_this("text", article.cleaned_text)
         
     return title, content, description
 
