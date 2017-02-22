@@ -123,19 +123,22 @@ def GetImagesURL(opinion):
 def Generate(title, date, content, images):
     global nginx_host
     cti = ""
-    split_flag = "\n"
+    split_flag = "。"
     image_cnt = 0
-    while content.find(split_flag) != -1 or image_cnt >= len(images):
-        pre = content[:content.find(split_flag)+len(split_flag)]
-        content = content[content.find(split_flag)+len(split_flag):]
-        pre = "<br><img src=%s /img><br><p>%s</p>" % \
-              (images[image_cnt], pre)
-        cti = cti + pre
-        image_cnt += 1
-        if image_cnt >= len(images):
-            pre = "<p>%s</p>" % content
+    if content.find(split_flag) == -1:
+        cti = content
+    else:
+        while content.find(split_flag) != -1 or image_cnt >= len(images):
+            pre = content[:content.find(split_flag)+len(split_flag)]
+            content = content[content.find(split_flag)+len(split_flag):]
+            pre = "<br><img src=%s /img><br><p>%s</p>" % \
+                  (images[image_cnt], pre)
             cti = cti + pre
-            break
+            image_cnt += 1
+            if image_cnt >= len(images):
+                pre = "<p>%s</p>" % content
+                cti = cti + pre
+                break
     #log_this("cti", cti)        
     html_str ="""
         <html>
