@@ -15,7 +15,7 @@ nginx_host = "http://www.irumor.cn:443/"
 volume_dir = "/var/vo"
 
 def log_this(name, content):
-    f = open("%s.txt" % name, "w")
+    f = open("%s/%s.txt" % (volume_dir,name), "w")
     f.write(content)
     f.close()
     return
