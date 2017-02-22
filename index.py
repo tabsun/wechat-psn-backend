@@ -149,14 +149,18 @@ def Generate(title, date, content, images):
             </head>
 
             <body>
-            <h1><font color="blue">%s</font></h1>
+            <h1><font color="blue" size="16">%s</font></h1>
+            <br />
+            <br />
             <hr />
-            <font size="10">%s tabsun irumor</font>
-            <br>
+            <font size="8">%s tabsun irumor</font>
+            <br />
+            <br />
             %s
-            <br>
-            <br>
-            <br>
+            <br />
+            <br />
+            <br />
+            <hr />
             <font face="微软雅黑" size="12" color="#0000AA">更多内容关注irumor</font>
             <br>
             <div align="center"><img src="http://i.imgur.com/o8L9ItZ.jpg" width="60%%"/></div>
