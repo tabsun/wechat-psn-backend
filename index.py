@@ -39,10 +39,10 @@ def GetFileMd5(filename):
 def GetTitleContent(opinion):
     news_searcher = BaiduNewsSearch(opinion) 
     results_pair = news_searcher.get_results()
-    searcher = BaiduSearch(opinion)
-    web_results_pair = searcher.originalURLs
-    
-    results_pair.extend(web_results_pair)
+    if len(results_pair) == 0:
+        searcher = BaiduSearch(opinion)
+        results_pair = searcher.originalURLs
+        
     # default title & description & content
     title = results_pair[0][1]
     content = """在想当初，后汉三国年间，有一位莽撞人。
