@@ -36,8 +36,12 @@ def GetFileMd5(filename):
     return myhash.hexdigest()
 
 def GetTitleContent(opinion):
-    searcher = BaiduNewsSearch(opinion) 
-    results_pair = searcher.get_results()
+    news_searcher = BaiduNewsSearch(opinion) 
+    results_pair = news_searcher.get_results()
+    searcher = BaiduSearch(opinion)
+    web_results_pair = searcher.originalURLs
+    
+    results_pair.extend(web_results_pair)
     # default title & description & content
     title = results_pair[0][1]
     content = """在想当初，后汉三国年间，有一位莽撞人。
