@@ -79,7 +79,6 @@ def GetTitleContent(opinion):
             source_url = cur_url
             source_title = cur_title
     if source_url is not None and source_title is not None:
-        source_url = 'http://finance.sina.com.cn/roll/2017-02-22/doc-ifyarrqs9943860.shtml'
         goo = Goose({'stopwords_class': StopWordsChinese})
         log_this("source_url", source_url)
 
