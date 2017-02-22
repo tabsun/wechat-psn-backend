@@ -83,10 +83,7 @@ def GetTitleContent(opinion):
         goo = Goose({'stopwords_class': StopWordsChinese})
         log_this("source_url", source_url)
 
-        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
-        response = opener.open(source_url)
-        raw_html = response.read()
-        article = goo.extract(raw_html=raw_html)
+        article = goo.extract(url=source_url)
         title = source_title
         description = article.meta_description.encode('utf-8')
         content = article.cleaned_text.encode('utf-8')
