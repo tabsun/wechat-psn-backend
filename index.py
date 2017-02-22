@@ -178,7 +178,7 @@ def articles(message):
     # rename html file by its MD5 and record its images and birth-second
     md5 = GetFileMd5(temp_file_dir)
     article_url = nginx_host
-    if md5 is None or len(content) == 0 or title is None or len(images) == 0:
+    if md5 is None or len(content) == 0:
         article_url = "%s/index.html" % nginx_host
     else:
         # rename
