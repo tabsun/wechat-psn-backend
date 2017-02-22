@@ -4,6 +4,7 @@ import time
 from string import Template
 from BaiduImageSearch import BaiduImage
 from BaiduNewsSearch import BaiduNewsSearch
+from BaiduSearch import BaiduSearch
 from SentenceSim import SentenceSim
 from Html2Article import Html2Article
 from goose import Goose
