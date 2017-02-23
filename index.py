@@ -127,6 +127,7 @@ def GetImagesURL(opinion):
     
 def Generate(title, date, content, images):
     global nginx_host
+    content.replace("\n","\n\n\n")
     cti = ""
     split_flag = "。"
     image_cnt = 0
