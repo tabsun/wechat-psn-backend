@@ -174,7 +174,7 @@ def Generate(title, date, content, images):
     return html_str
 
 def tremove(filename):
-    if os.exists(filename):
+    if os.path.exists(filename):
         os.remove(filename)
     return
 # weixin server
