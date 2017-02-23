@@ -173,6 +173,10 @@ def Generate(title, date, content, images):
         </html>""" % (title, title, date, cti)
     return html_str
 
+def tremove(filename):
+    if os.exists(filename):
+        os.remove(filename)
+    return
 # weixin server
 robot = werobot.WeRoBot(token='tabsunirumor', enable_session=True)
 
@@ -214,7 +218,7 @@ def articles(message):
         article_url = "%s/%s.html" % (nginx_host,md5)
         final_file_dir = "%s/%s.html" % (volume_dir,md5)
         if os.path.exists(final_file_dir):
-            os.remove(temp_file_dir)
+            tremove(temp_file_dir)
         else:
             os.rename(temp_file_dir,final_file_dir)
             # log its images
@@ -234,19 +238,19 @@ def articles(message):
                 if len(lines) > max_number:
                     md5 = lines[0][:-1]
                     # remove html
-                    os.remove("%s/%s.html" % (volume_dir,md5))
+                    tremove("%s/%s.html" % (volume_dir,md5))
                     # remove images and log
                     with open("%s/%s.txt" % (volume_dir,md5)) as image_log:
                         for each_image in image_log.readlines():
                             os.remove("%s/%s" % (volume_dir,each_image[:-1]))
-                    os.remove("%s/%s.txt" % (volume_dir,md5))
+                    tremove("%s/%s.txt" % (volume_dir,md5))
                     # remove its info in birth-second
                     fout = open("%s/new-birth-second.txt" % volume_dir,"w")
                     for lid in range(1,len(lines)):
                         fout.write(lines[lid])
                     fout.close()
             if os.path.exists("%s/new-birth-second.txt" % volume_dir):
-                os.remove("%s/birth-second.txt" % volume_dir)
+                tremove("%s/birth-second.txt" % volume_dir)
                 os.rename("%s/new-birth-second.txt"% volume_dir,\
                           "%s/birth-second.txt" % volume_dir)  
     return [
