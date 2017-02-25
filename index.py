@@ -243,7 +243,7 @@ def articles(message):
                     # remove images and log
                     with open("%s/%s.txt" % (volume_dir,md5)) as image_log:
                         for each_image in image_log.readlines():
-                            os.remove("%s/%s" % (volume_dir,each_image[:-1]))
+                            tremove("%s/%s" % (volume_dir,each_image[:-1]))
                     tremove("%s/%s.txt" % (volume_dir,md5))
                     # remove its info in birth-second
                     fout = open("%s/new-birth-second.txt" % volume_dir,"w")
