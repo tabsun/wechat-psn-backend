@@ -13,6 +13,7 @@ from goose.text import StopWordsChinese
 import hashlib
 import urllib2
 import os
+import re
 
 nginx_host = "http://www.irumor.cn:443/"
 volume_dir = "/var/vo"
@@ -131,16 +132,25 @@ def Generate(title, date, content, images):
     cti = ""
     split_flag = "。"
     image_cnt = 0
+    flag_cnt = 0
+    flag_num = content.count(split_flag)
+    step = max(1, flag_num / len(images))
+    
     if content.find(split_flag) == -1:
         cti = content
     else:
         while content.find(split_flag) != -1 or image_cnt >= len(images):
-            pre = content[:content.find(split_flag)+len(split_flag)]
-            content = content[content.find(split_flag)+len(split_flag):]
-            pre = '<br><div align="center"><img src="' + images[image_cnt] + \
+            pos = content.find(split_flag)
+            pre = content[:pos+len(split_flag)]
+            content = content[pos+len(split_flag):]
+            
+            if flag_cnt % step == 0:
+                pre = '<br><div align="center"><img src="' + images[image_cnt] + \
                   '" width="80%"/img></div><br><font face="微软雅黑" size="12">' + pre + '</font>'
+                image_cnt += 1
+                
             cti = cti + pre
-            image_cnt += 1
+            flag_cnt += 1
             if image_cnt >= len(images):
                 pre = '<font face="微软雅黑" size="12">' + content + '</font>'
                 cti = cti + pre
@@ -191,7 +201,7 @@ def articles(message):
     global nginx_host
     global volume_dir
     # max saved html number
-    max_number = 10
+    max_number = 500
     opinion_str = message.content  
     opinion_str = opinion_str.encode('utf-8')
     # get date
