@@ -25,6 +25,6 @@ class BaiduNewsSearch:
         results = []
         for each_pair in self.doc('.c-title a').items():
             results.append((each_pair.attr.href,each_pair.text().encode('utf-8')))
-            if len(results) >= 3:
+            if len(results) >= 8:
                 break
         return results

@@ -48,9 +48,9 @@ class BaiduImage():
             image_url_list = self.__pick_image_urls(response)
             self.__imageList.extend(image_url_list)
 
-    def get_images_url(self):
+    def get_images_url(self, num):
         self.search()
-        num = random.randint(4, 6)
+        num = num
         urls = []
         count = 0
         for each_url in self.__imageList:

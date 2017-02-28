@@ -17,6 +17,7 @@ import re
 
 nginx_host = "http://www.irumor.cn:443/"
 volume_dir = "/var/vo"
+split_flag = "。"
 
 def log_this(name, content):
     f = open("%s/%s.txt" % (volume_dir,name), "w")
@@ -95,6 +96,8 @@ def GetTitleContent(opinion):
         title = source_title
         description = article.meta_description.encode('utf-8')
         content = article.cleaned_text.encode('utf-8')
+        if len(description) > 200:
+            description = content[:content.find(end_flag)+len(end_flag)]
         # once goose fail use html2article
         if len(content) == 0:
             convertor = Html2Article()
@@ -112,25 +115,25 @@ def GetTitleContent(opinion):
                 content = cur_content
                 title = cur_title
                 description = content[:content.find(end_flag)+len(end_flag)]
-    log_this("content", content)
+    #log_this("content", content)
         
-    return title, content, description
+    return title, content, description, source_url
 
-def GetImagesURL(opinion):
+def GetImagesURL(opinion, num):
     cover_url = "https://secure.gravatar.com/avatar/0024710771815ef9b74881ab21ba4173?s=420"
     image_searcher = BaiduImage(opinion)
-    images_url = image_searcher.get_images_url()
+    images_url = image_searcher.get_images_url(num)
     if len(images_url) > 0:
         cover_url = images_url[0]
         return cover_url, images_url
     else:
         return None
     
-def Generate(title, date, content, images):
+def Generate(title, date, content, images, url):
     global nginx_host
+    global split_flag
     content.replace("\n","\n\n\n")
-    cti = ""
-    split_flag = "。"
+    cti = ""    
     image_cnt = 0
     flag_cnt = 0
     flag_num = content.count(split_flag)
@@ -180,12 +183,13 @@ def Generate(title, date, content, images):
             <br />
             <br />
             <br />
+            <a href="%s"><font face="微软雅黑" size="10" color="#0000AA">阅读原文</font></a>
             <hr />
-            <font face="微软雅黑" size="12" color="#0000AA">更多内容关注irumor</font>
+            <div align="center"><font face="微软雅黑" size="12" color="#0000AA">更多内容关注irumor</font></div>
             <br>
             <div align="center"><img src="http://i.imgur.com/o8L9ItZ.jpg" width="60%%"/></div>
             </body>
-        </html>""" % (title, title, date, cti)
+        </html>""" % (title, title, date, cti, url)
     return html_str
 
 def tremove(filename):
@@ -204,6 +208,8 @@ def subscribe(message):
 def articles(message):
     global nginx_host
     global volume_dir
+    global split_flag
+    
     # max saved html number
     max_number = 500
     opinion_str = message.content  
@@ -211,13 +217,15 @@ def articles(message):
     # get date
     date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
     # get article's title and content about the opinion
-    title, content, description = GetTitleContent(opinion_str)
+    title, content, description, url = GetTitleContent(opinion_str)
     # get cover image(also top image)
-    cover, images = GetImagesURL(opinion_str)
+    flag_num = content.count(split_flag)
+    image_num = max(4, flag_num / 3)
+    cover, images = GetImagesURL(opinion_str, image_num)
     cover = nginx_host + cover
     
     # generate html content string
-    html_str = Generate(title, date, content, images)
+    html_str = Generate(title, date, content, images, url)
     # write the html string into html file
     temp_file_dir = "%s/temp.html" % volume_dir
     html_file= open(temp_file_dir,"w")
