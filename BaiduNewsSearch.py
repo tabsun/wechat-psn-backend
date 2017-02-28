@@ -5,7 +5,7 @@ import requests
 
 class BaiduNewsSearch:
     def __init__(self, keyword, method='GET', **kwargs):
-        url = 'http://news.baidu.com/ns?cl=2&rn=20&tn=news&word=%s' % keyword
+        url = 'http://news.baidu.com/ns?cl=2&rn=20&tn=news&word=%s&clk=sortbytime' % keyword
         headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'}
         self.host = urlparse(url).scheme+'://'+urlparse(url).netloc
         self.rep = requests.request(url=url, method=method,headers = headers, verify=False, **kwargs)
@@ -25,4 +25,6 @@ class BaiduNewsSearch:
         results = []
         for each_pair in self.doc('.c-title a').items():
             results.append((each_pair.attr.href,each_pair.text().encode('utf-8')))
+            if len(results) >= 3:
+                break
         return results

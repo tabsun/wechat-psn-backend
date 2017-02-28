@@ -146,8 +146,12 @@ def Generate(title, date, content, images):
             
             if flag_cnt % step == 0:
                 pre = '<br><div align="center"><img src="' + images[image_cnt] + \
-                  '" width="80%"/img></div><br><font face="微软雅黑" size="12">' + pre + '</font>'
+                  '" width="80%"/img></div><br><font face="微软雅黑" size="12">' + \
+                  pre + '</font>'
                 image_cnt += 1
+            else:
+                pre = '<font face="微软雅黑" size="12">' + \
+                  pre + '</font>'
                 
             cti = cti + pre
             flag_cnt += 1
