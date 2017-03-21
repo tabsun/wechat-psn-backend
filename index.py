@@ -285,4 +285,4 @@ def articles(message):
         ]
     ]
 
-robot.run(host='0.0.0.0',port=80,server='cgi')
+robot.run(host='0.0.0.0',port=80,server='auto')
